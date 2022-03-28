@@ -17,6 +17,12 @@ else:
 	ip = input("Enter Server IP: ")
 url = "http://"+ip+":8085/tool/server/receiver"
 post = {"id":"test-pi"}
+try:
+	requests.get(url)
+	print("QR Sensor connected to Server on "+ip)
+except:
+	print("QR Sensor connection to Server has failed")
+
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -40,15 +46,15 @@ while True:
 				lastdata = data;
 				web = requests.post(url, data=post)
 				responce = web.text
-                                if "Request Confirmed" in responce:
-                                        print("yes")
-                                        changeLEDs(True)
-                                        time.sleep(2)
-                                else:
-                                        print("no")
-                                        GPIO.setmode(GPIO.BOARD)
-                                        GPIO.setup(29, GPIO.OUT)
-                                        GPIO.output(29, GPIO.LOW)
+				if "Request Confirmed" in responce:
+					print("yes")
+					changeLEDs(True)
+					time.sleep(2)
+				else:
+					print("no")
+					GPIO.setmode(GPIO.BOARD)
+					GPIO.setup(29, GPIO.OUT)
+					GPIO.output(29, GPIO.LOW)
 				time.sleep(2)
 				changeLEDs(False)
 		cv2.imshow("code detector", img)
