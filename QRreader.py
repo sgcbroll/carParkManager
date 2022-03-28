@@ -34,7 +34,7 @@ while True:
 		data, bbox, _ = dectector.detectAndDecode(img)
 		if (bbox is not None):
 			cv2.putText(img, data, (int(bbox[0][0][0]), int(bbox[0][0][1])-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0),2)
-			if data && data != lastdata:
+			if data and data != lastdata:
 				print("data found: ", data)
 				post["value"] = data
 				lastdata = data;
