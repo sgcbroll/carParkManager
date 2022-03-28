@@ -11,12 +11,12 @@ def changeLEDs(open):
 	else:
 		GPIO.output(6,GPIO.LOW)
 		GPIO.output(5,GPIO.HIGH)
-if len(sys.argv) > 1:
-	ip = sys.argv[1]
+if len(sys.argv) > 3:
+	ip = sys.argv[3]
 else:
 	ip = input("Enter Server IP: ")
 url = "http://"+ip+":8085/tool/server/receiver"
-post = {"id":"test-pi"}
+post = {"id":sys.argv[1],"change":sys.argv[2]}
 try:
 	requests.get(url)
 	print("QR Sensor connected to Server on "+ip)

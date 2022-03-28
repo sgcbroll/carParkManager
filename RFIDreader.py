@@ -19,12 +19,17 @@ def changeLEDs(open):
         else:
                 GPIO.output(31,GPIO.LOW)
                 GPIO.output(29,GPIO.HIGH)
-if len(sys.argv) >1:
-	ip = sys.argv[1]
+if len(sys.argv) >3:
+	ip = sys.argv[3]
 else:
 	ip = input("Enter Server IP:")
 url = "http://"+ip+":8085/tool/server/receiver"
-post = {"id":"test-pi"}
+if ((sys.argv[2].lower()) == "entry"):
+	change = -1
+else:
+	change = 1
+
+post = {"id":sys.argv[1], "change":change}
 try:
 	requests.get(url)
 	print("Connected to Server")
