@@ -25,7 +25,7 @@ if ((sys.argv[2].lower()) == "entry"):
 	change = 1
 else:
 	change = -1
-post = {"id":sys.argv[1],"change":}
+post = {"id":sys.argv[1],"change":change}
 try:
 	requests.get(url)
 	print("Button connected to Server on "+ip)
