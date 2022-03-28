@@ -1,4 +1,5 @@
 import sys
+import time
 import requests
 import RPi.GPIO as GPIO
 
@@ -41,3 +42,5 @@ while True:
 		if "Request Confirmed" in responce:
 			changeLEDs(True)
 			time.sleep(2)
+		time.sleep(2)
+		changeLEDs(False)
