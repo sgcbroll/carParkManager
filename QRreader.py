@@ -23,7 +23,6 @@ try:
 except:
 	print("QR Sensor connection to Server has failed")
 
-
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(5, GPIO.OUT)
@@ -40,21 +39,19 @@ while True:
 		data, bbox, _ = dectector.detectAndDecode(img)
 		if (bbox is not None):
 			cv2.putText(img, data, (int(bbox[0][0][0]), int(bbox[0][0][1])-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0),2)
-			if data and data != lastdata:
+			if data:
 				print("data found: ", data)
 				post["value"] = data
-				lastdata = data;
 				web = requests.post(url, data=post)
 				responce = web.text
 				if "Request Confirmed" in responce:
-					print("yes")
+					print("Confirm")
 					changeLEDs(True)
 					time.sleep(2)
 				else:
-					print("no")
-					GPIO.setmode(GPIO.BOARD)
-					GPIO.setup(29, GPIO.OUT)
-					GPIO.output(29, GPIO.LOW)
+					print("Denied")
+					GPIO.setup(5, GPIO.OUT)
+					GPIO.output(5, GPIO.LOW)
 				time.sleep(2)
 				changeLEDs(False)
 		cv2.imshow("code detector", img)
