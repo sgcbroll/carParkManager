@@ -27,19 +27,29 @@ GPIO.output(6, GPIO.LOW)
 
 cap = cv2.VideoCapture(0)
 dectector = cv2.QRCodeDetector()
+
 while True:
 	try:
 		_, img = cap.read()
 		data, bbox, _ = dectector.detectAndDecode(img)
 		if (bbox is not None):
 			cv2.putText(img, data, (int(bbox[0][0][0]), int(bbox[0][0][1])-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0),2)
-			if data:
+			if data && data != lastdata:
 				print("data found: ", data)
 				post["value"] = data
-				requests.post(url, data=post)
-
-				changeLEDs(True)
-				time.sleep(3)
+				lastdata = data;
+				web = requests.post(url, data=post)
+				responce = web.text
+                                if "Request Confirmed" in responce:
+                                        print("yes")
+                                        changeLEDs(True)
+                                        time.sleep(2)
+                                else:
+                                        print("no")
+                                        GPIO.setmode(GPIO.BOARD)
+                                        GPIO.setup(29, GPIO.OUT)
+                                        GPIO.output(29, GPIO.LOW)
+				time.sleep(2)
 				changeLEDs(False)
 		cv2.imshow("code detector", img)
 		cv2.waitKey(1)		
