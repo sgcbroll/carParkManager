@@ -4,4 +4,4 @@
 \
 sudo git clone https://github.com/sgcbroll/carParkManager.git \
 cd carParkManager \
-./carparkmanager (optional IP address)
+./carparkmanager.sh (optional IP address)
